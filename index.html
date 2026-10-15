@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Recreación académica de la interfaz de AppSorteos, con carga manual de participantes y sorteos locales.">
+  <meta name="theme-color" content="#ed2ba3">
+  <title>AppSorteos · Práctica de programación</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700,900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/icons.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="draw-engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Ir al contenido</a>
+  <header class="navbar">
+    <a class="brand" href="#inicio" aria-label="AppSorteos, inicio"><img src="assets/logo.svg" width="160" height="38" alt="AppSorteos"></a>
+    <button class="mobile-menu icon-button" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="navigation"><span></span><span></span><span></span></button>
+    <nav id="navigation" class="navigation" aria-label="Navegación principal">
+      <div class="nav-main">
+        <div class="dropdown">
+          <button class="nav-link" data-dropdown="apps-menu" aria-expanded="false" aria-controls="apps-menu"><i class="fa-th" aria-hidden="true"></i> Aplicaciones <i class="fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="dropdown-panel apps-menu" id="apps-menu" hidden>
+            <p class="menu-heading">Sorteos</p>
+<div id="menu-apps" class="menu-app-grid"></div>
+            <div class="menu-bottom">
+<button data-open="numbers"><i class="fa-random" aria-hidden="true"></i> Números Aleatorios</button><button data-open="wheel"><i class="fa-dharmachakra" aria-hidden="true"></i> La Ruleta Aleatoria</button>
+</div>
+          </div>
+        </div>
+        <button class="nav-link" data-info="automation">Automation <span class="new-badge">NEW</span></button>
+        <button class="nav-link" data-info="prices">Precios</button>
+        <div class="dropdown">
+          <button class="nav-link" data-dropdown="help-menu" aria-expanded="false" aria-controls="help-menu">Ayuda <i class="fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="dropdown-panel small-menu" id="help-menu" hidden>
+<a href="#como-funciona">Cómo funciona</a><a href="#preguntas">Preguntas frecuentes</a><button data-info="project">Acerca de esta práctica</button>
+</div>
+        </div>
+      </div>
+      <div class="nav-account">
+        <button class="nav-link" data-info="account">Ingresar</button>
+        <button class="button button-small" data-info="account">Crear cuenta</button>
+        <div class="dropdown">
+<button class="nav-link language" data-dropdown="language-menu" aria-expanded="false" aria-controls="language-menu">ES <i class="fa-chevron-down" aria-hidden="true"></i></button><div class="dropdown-panel small-menu language-menu" id="language-menu" hidden>
+<span>🇪🇸 Español <i class="fa-check" aria-hidden="true"></i></span><small>Idioma de esta práctica</small>
+</div>
+</div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <h1 id="hero-title">Sorteo en Instagram</h1>
+        <p id="hero-description">Obtén un comentario ganador al azar de tus fotos y videos de Instagram.</p>
+        <form class="landing-input" id="start-form">
+          <i class="fa-instagram" id="hero-icon" aria-hidden="true"></i>
+          <label class="sr-only" for="hero-input">Referencia del sorteo o números</label>
+          <input id="hero-input" type="text" placeholder="Ingresa @username o URL del Post" autocomplete="off" spellcheck="false">
+          <button type="submit" class="button start-button">Comenzar <i class="fa-chevron-right" aria-hidden="true"></i></button>
+        </form>
+        <div class="social-switcher" aria-label="Selecciona una herramienta">
+          <button class="active" data-platform="instagram" aria-label="Instagram" aria-pressed="true"><i class="fa-instagram" aria-hidden="true"></i></button>
+          <button data-platform="facebook" aria-label="Facebook" aria-pressed="false"><i class="fa-facebook" aria-hidden="true"></i></button>
+          <button data-platform="twitter" aria-label="Twitter / X" aria-pressed="false"><i class="fa-twitter" aria-hidden="true"></i></button>
+          <button data-platform="youtube" aria-label="YouTube" aria-pressed="false"><i class="fa-youtube" aria-hidden="true"></i></button>
+          <button data-platform="tiktok" aria-label="TikTok" aria-pressed="false"><i class="fa-tiktok" aria-hidden="true"></i></button>
+          <button data-platform="bluesky" aria-label="Bluesky" aria-pressed="false"><i class="fa-bluesky" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="apps-section section" id="aplicaciones" aria-labelledby="apps-title">
+      <div class="container">
+        <h2 id="apps-title">Apps de Sorteos más Usadas</h2>
+        <p class="section-lead">Elige tu herramienta, prepara los participantes y descubre quién se lleva el premio.</p>
+        <div class="apps-grid" id="apps-grid"></div>
+        <button class="button all-apps" id="all-apps" aria-expanded="false" aria-controls="extra-apps">Ver todas las apps</button>
+        <div class="extra-apps" id="extra-apps" hidden>
+          <button class="app-card" data-open="dice"><span class="app-icon" style="--icon-color:#239c8d;--icon-bg:#e3f3ef"><i class="fa-dice" aria-hidden="true"></i></span><span><strong>Dados Virtuales</strong><span>Lanza un dado y descubre el resultado.</span></span><i class="fa-chevron-right card-arrow" aria-hidden="true"></i></button>
+          <button class="app-card" data-open="names"><span class="app-icon" style="--icon-color:#b58a0b;--icon-bg:#fff7d3"><i class="fa-list-ol" aria-hidden="true"></i></span><span><strong>Sorteo de Participantes</strong><span>Usa tu propia lista de nombres o números.</span></span><i class="fa-chevron-right card-arrow" aria-hidden="true"></i></button>
+          <button class="app-card" data-open="coin"><span class="app-icon" style="--icon-color:#8971bd;--icon-bg:#eee9f7"><i class="fa-circle" aria-hidden="true"></i></span><span><strong>Lanza una Moneda</strong><span>Una decisión al azar: cara o cruz.</span></span><i class="fa-chevron-right card-arrow" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews" aria-label="Ejemplos de reseñas del diseño">
+      <div class="container reviews-grid">
+        <figure><div class="stars" aria-label="5 estrellas">★★★★★</div>
+<blockquote>“Simple, rápido y listo para sortear”</blockquote>
+<figcaption><span class="avatar avatar-pink">V</span><span>Valeria<small>@vale.crea · ejemplo</small></span></figcaption></figure>
+        <figure><div class="stars" aria-label="5 estrellas">★★★★★</div>
+<blockquote>“Toda mi lista en un solo lugar”</blockquote>
+<figcaption><span class="avatar avatar-blue">M</span><span>Marcos<small>@marcos.digital · ejemplo</small></span></figcaption></figure>
+        <figure><div class="stars" aria-label="5 estrellas">★★★★★</div>
+<blockquote>“El siguiente ganador está aquí”</blockquote>
+<figcaption><span class="avatar avatar-purple">C</span><span>Camila<small>@cami.estudio · ejemplo</small></span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="trusted section">
+      <div class="container">
+<h3>Estás en buenas manos</h3>
+<p class="section-lead">Una interfaz para conectar comunidades, compartir momentos y celebrar a los ganadores.</p>
+        <div class="brands" aria-label="Marcas mostradas como referencia visual">
+<img src="assets/brand-rtve.png" alt="RTVE" loading="lazy"><img src="assets/brand-tupperware.png" alt="Tupperware" loading="lazy"><img src="assets/brand-pepsi.png" alt="Pepsi" loading="lazy"><img src="assets/brand-marriott.png" alt="Marriott" loading="lazy"><img src="assets/brand-hubspot.avif" alt="HubSpot" loading="lazy"><img src="assets/brand-levis.png" alt="Levi’s" loading="lazy">
+</div>
+        <p class="reference-caption">Marcas presentes en el sitio de referencia. Esta es una recreación académica independiente.</p>
+      </div>
+    </section>
+
+    <section class="how-section section" id="como-funciona">
+      <div class="container">
+<h2>¿Cómo Funciona?: 4 Simples pasos para crear un sorteo exitoso</h2>
+        <div class="how-layout">
+          <div class="steps" aria-label="Pasos del sorteo">
+            <button class="step active" data-step="0" aria-expanded="true"><span class="step-number">1</span><span><strong>Prepara los participantes</strong><span>Pega una lista de números o nombres. Tú eliges quiénes participan.</span></span></button>
+            <button class="step" data-step="1" aria-expanded="false"><span class="step-number">2</span><span><strong>Configura tu sorteo</strong><span>Elige los ganadores, los suplentes y las reglas para tu lista.</span></span></button>
+            <button class="step" data-step="2" aria-expanded="false"><span class="step-number">3</span><span><strong>Descubre al ganador</strong><span>Comienza la cuenta regresiva y deja que el azar decida.</span></span></button>
+            <button class="step" data-step="3" aria-expanded="false"><span class="step-number">4</span><span><strong>Comparte el resultado</strong><span>Descarga el resultado de tu práctica o cópialo para compartirlo.</span></span></button>
+          </div>
+          <div class="step-preview reference-step-preview" id="step-preview" aria-live="polite"><img src="assets/step-1.png" alt="Ilustración del sitio de referencia: selección de publicación" loading="lazy" id="step-image" width="500" height="500"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features section">
+      <div class="container">
+        <article class="feature-row"><div class="feature-copy">
+<span class="eyebrow">FILTROS AVANZADOS</span><h2>Selecciona un ganador al azar entre los participantes que cumplan con la consigna.</h2>
+<p>Prepara el sorteo con las opciones que necesitas antes de comenzar.</p>
+<ul class="check-list">
+<li>Quita los participantes duplicados.</li>
+<li>Excluye números o nombres de tu lista.</li>
+<li>Elige ganadores y suplentes.</li>
+<li>Revisa el total de participantes elegibles.</li>
+</ul>
+<button class="button" data-open="names">Pruébalo Gratis</button>
+</div>
+<div class="feature-art filter-art reference-art"><img src="assets/step-2.png" alt="Ilustración de los filtros de AppSorteos" loading="lazy" width="500" height="500"></div></article>
+        <article class="feature-row reversed"><div class="feature-copy">
+<span class="eyebrow">RESULTADOS</span><h2>Obtén una imagen para compartir los ganadores de tu sorteo</h2>
+<p>Descubre los ganadores con una cuenta regresiva y guarda el resultado para tu presentación.</p>
+<ul class="check-list">
+<li>Vista de ganadores y suplentes.</li>
+<li>Descarga una imagen del resultado.</li>
+<li>Copia el resultado como texto.</li>
+</ul>
+<button class="button" data-open="names">Pruébalo Gratis</button>
+</div>
+<div class="feature-art winner-art reference-art"><img src="assets/step-4.png" alt="Ilustración de los resultados de AppSorteos" loading="lazy" width="500" height="500"></div></article>
+        <article class="feature-row"><div class="feature-copy">
+<span class="eyebrow">RULETA DE LA FORTUNA</span><h2>Crea una ruleta de la fortuna para tu próximo sorteo.</h2>
+<p>Agrega tu lista y gira una ruleta con los colores del sorteo.</p>
+<ul class="check-list">
+<li>Carga tus opciones manualmente.</li>
+<li>Elige cuántos ganadores necesitas.</li>
+<li>Muestra el resultado en pantalla.</li>
+</ul>
+<button class="button" data-open="wheel">Pruébalo Gratis</button>
+</div>
+<div class="feature-art wheel-art reference-art"><img src="assets/fortune-wheel.png" alt="Ilustración de la ruleta del sitio de referencia" loading="lazy" width="500" height="500"></div></article>
+      </div>
+    </section>
+
+    <section class="faq-section section" id="preguntas"><div class="container narrow">
+<h2>Preguntas Frecuentes</h2>
+      <details><summary>¿Cómo uso esta versión para mi clase?</summary><p>Haz clic en Comenzar, carga manualmente los participantes y configura el sorteo. Los archivos HTML, CSS y JavaScript se pueden estudiar y modificar por separado.</p></details>
+      <details><summary>¿Puedo introducir mis propios números?</summary><p>Sí. Pega números separados por comas o saltos de línea. También puedes generar una lista indicando un número inicial y uno final.</p></details>
+      <details><summary>¿Se conecta con Instagram u otras redes?</summary><p>Esta práctica funciona con listas manuales. El nombre de usuario o enlace se usa solamente como referencia visual del sorteo; no descarga comentarios ni solicita acceso a tus cuentas.</p></details>
+      <details><summary>¿Cómo se eligen los ganadores?</summary><p>Se mezcla la lista mediante Fisher–Yates usando números generados con crypto.getRandomValues. Los ganadores y suplentes se eligen sin reemplazo entre las entradas elegibles.</p></details>
+      <details><summary>¿El resultado es aleatorio?</summary><p>No. Esta versión tiene el ganador hardcodeado: el último ganador siempre es olgardz2 y los puestos anteriores se sortean entre el resto. La pantalla y las descargas lo indican.</p></details>
+      <details><summary>¿Qué pasa si hay números o nombres repetidos?</summary><p>Con Eliminar duplicados activado, cada nombre o número participa una vez. Si desactivas esa opción, cada entrada cuenta como una oportunidad y un mismo valor puede aparecer más de una vez en los resultados.</p></details>
+      <details><summary>¿Dónde se guarda mi lista?</summary><p>El borrador permanece en este navegador mediante almacenamiento local. Puedes borrar el borrador desde el formulario. No se envía a un servidor.</p></details>
+      <details><summary>¿Puedo descargar el resultado?</summary><p>Sí. Puedes descargar una imagen PNG, un archivo CSV o copiar el texto con los ganadores de tu sorteo.</p></details>
+      <details><summary>¿Es el sitio oficial de AppSorteos?</summary><p>Es una recreación independiente para estudiar HTML, CSS y JavaScript. La marca y el diseño de referencia pertenecen a AppSorteos.</p></details>
+    </div></section>
+
+    <section class="about-section section"><div class="container narrow">
+<h2>¿Qué es App Sorteos?</h2>
+<p>La referencia para esta práctica es una plataforma de sorteos con herramientas para elegir participantes en redes sociales. Esta versión reproduce su lenguaje visual y adapta el flujo a una lista cargada a mano.</p>
+<p>El proyecto permite practicar maquetación adaptable, eventos, formularios, validación, almacenamiento local, animaciones y selección aleatoria con JavaScript.</p>
+</div></section>
+  </main>
+
+  <footer class="footer"><div class="container">
+<div class="footer-grid">
+<div class="footer-about">
+<img src="assets/logo.svg" width="160" height="38" alt="AppSorteos"><p>Prepara tu lista, realiza un sorteo y comparte el momento de descubrir a los ganadores.</p>
+<div class="footer-socials">
+<button data-open="instagram" aria-label="Sorteo manual de Instagram"><i class="fa-instagram" aria-hidden="true"></i></button><button data-open="facebook" aria-label="Sorteo manual de Facebook"><i class="fa-facebook" aria-hidden="true"></i></button><button data-open="twitter" aria-label="Sorteo manual de Twitter"><i class="fa-twitter" aria-hidden="true"></i></button>
+</div>
+<a href="descargas/appsorteos-clase.zip" download="" class="source-link">Descargar código de la práctica</a>
+</div>
+<div>
+<h3>Ayuda</h3>
+<a href="#como-funciona">Cómo funciona</a><a href="#preguntas">Centro de Ayuda</a><button data-info="project">Acerca del proyecto</button><h3 class="footer-subtitle">Más</h3>
+<button data-info="terms">Términos de la práctica</button><button data-info="privacy">Privacidad</button>
+</div>
+<div>
+<h3>Apps</h3>
+<button data-open="instagram">Sorteo en Instagram</button><button data-open="wheel">La Ruleta Aleatoria</button><button data-open="facebook">Sorteo en Facebook</button><button data-open="numbers">Números Aleatorios</button><button data-open="youtube">Sorteo en YouTube</button><button data-open="names">Listado de Nombres</button><button data-open="tiktok">Sorteo en TikTok</button>
+</div>
+<div>
+<h3>Mi Cuenta</h3>
+<button data-info="account">Ingresar</button><button data-info="account">Crea una Cuenta</button><h3 class="footer-subtitle">Promociones</h3>
+<button data-open="wheel">Ruleta de Premios</button><button data-open="numbers">Sortea un Número</button>
+</div>
+</div>
+<div class="footer-bottom">
+<span>Recreación académica · HTML + CSS + JavaScript</span><span>Referencia visual: AppSorteos · Sin afiliación</span>
+</div>
+</div></footer>
+
+  <dialog class="draw-dialog" id="draw-dialog" aria-labelledby="draw-title">
+    <header class="dialog-header"><div>
+<span class="manual-badge"><span></span> Carga manual</span><h2 id="draw-title">Sorteo en Instagram</h2>
+</div>
+<button class="icon-button close-dialog" id="close-draw" aria-label="Cerrar sorteo"><i class="fa-times" aria-hidden="true"></i></button></header>
+    <div class="draw-progress" aria-label="Progreso del sorteo">
+<span class="active" data-progress="1"><b>1</b> Participantes</span><span data-progress="2"><b>2</b> Configuración</span><span data-progress="3"><b>3</b> Resultado</span>
+</div>
+    <div class="draw-body">
+      <section class="draw-screen" id="screen-participants" aria-label="Carga de participantes">
+        <div class="editor-layout">
+<div class="editor-main">
+<h3>¿Quiénes participan?</h3>
+<p class="muted">Agrega tu lista para preparar el sorteo.</p>
+          <div class="segmented" role="group" aria-label="Modo de entrada">
+<button class="selected" id="manual-mode" type="button" aria-pressed="true">Lista manual</button><button id="range-mode" type="button" aria-pressed="false">Rango de números</button>
+</div>
+          <div id="list-entry">
+<label for="participants">Números o nombres de los participantes</label><textarea id="participants" rows="9" placeholder="101
+205
+309
+412
+
+También puedes pegar: 101, 205, 309, 412" spellcheck="false" maxlength="500000"></textarea><div class="editor-tools">
+<label for="import-file" class="text-action"><i class="fa-file-import" aria-hidden="true"></i> Importar .txt / .csv</label><input id="import-file" type="file" accept=".txt,.csv,text/plain,text/csv" hidden><button class="text-action" id="load-example">Cargar ejemplo</button><button class="text-action" id="clear-draft">Borrar borrador</button>
+</div>
+<small class="input-hint">Separa las entradas con comas, punto y coma o saltos de línea. Máximo 10,000 entradas.</small>
+</div>
+          <div id="range-entry" hidden>
+<div class="range-fields">
+<div>
+<label for="range-from">Desde</label><input type="number" id="range-from" value="1" step="1">
+</div>
+<div>
+<label for="range-to">Hasta</label><input type="number" id="range-to" value="100" step="1">
+</div>
+</div>
+<p class="input-hint">Se incluyen los dos extremos del rango. Máximo 10,000 números.</p>
+<div class="range-visual">
+<i class="fa-random" aria-hidden="true"></i><span id="range-label">1 — 100</span><small>Todos listos para participar</small>
+</div>
+</div>
+          <p class="form-error" id="participants-error" role="alert" hidden></p>
+        </div>
+<aside class="draw-aside"><div class="aside-icon"><i class="fa-users" aria-hidden="true"></i></div>
+<strong class="participant-total" id="participant-total">0</strong><span>participantes cargados</span><hr>
+<p>Tu sorteo comienza con una buena lista.</p>
+<ul>
+<li>
+<i class="fa-check" aria-hidden="true"></i> Números o nombres</li>
+<li>
+<i class="fa-check" aria-hidden="true"></i> Sin conexión a redes</li>
+<li>
+<i class="fa-check" aria-hidden="true"></i> Guardado en tu navegador</li>
+</ul>
+<small>Un @usuario o enlace solo identifica tu sorteo. Los participantes se ingresan aquí.</small></aside>
+</div>
+        <div class="dialog-actions">
+<span class="draft-note" id="draft-note"><i class="fa-check-circle" aria-hidden="true"></i> Borrador local</span><button class="button" id="to-settings">Continuar <i class="fa-arrow-right" aria-hidden="true"></i></button>
+</div>
+      </section>
+
+      <section class="draw-screen" id="screen-settings" aria-label="Configuración" hidden><div class="settings-layout">
+<div>
+<h3>Configura tu sorteo</h3>
+<p class="muted">Los últimos detalles antes del gran momento.</p>
+<label for="giveaway-title">Título del sorteo</label><input id="giveaway-title" type="text" maxlength="100" placeholder="Mi sorteo"><div class="settings-row">
+<div>
+<label for="winners-count">Ganadores</label><input type="number" id="winners-count" min="1" max="100" value="1" required>
+</div>
+<div>
+<label for="alternates-count">Suplentes</label><input type="number" id="alternates-count" min="0" max="100" value="0" required>
+</div>
+<div>
+<label for="countdown-seconds">Cuenta regresiva</label><select id="countdown-seconds"><option value="3">3 segundos</option>
+<option value="5" selected>5 segundos</option>
+<option value="10">10 segundos</option>
+<option value="0">Sin cuenta regresiva</option></select>
+</div>
+</div>
+<label class="switch-field" for="remove-duplicates"><span><strong>Eliminar duplicados</strong><small>Una sola participación por número o nombre.</small></span><input class="switch" type="checkbox" id="remove-duplicates" checked></label><label for="excluded">Excluir participantes <span class="optional">(opcional)</span></label><textarea id="excluded" rows="3" placeholder="Números o nombres que no participarán"></textarea><p class="input-hint">Separa las exclusiones con comas o saltos de línea.</p>
+<p class="form-error" id="settings-error" role="alert" hidden></p>
+</div>
+<aside class="settings-summary"><span class="summary-icon"><i class="fa-trophy-alt" aria-hidden="true"></i></span><h4>Resumen del sorteo</h4>
+<div>
+<span>Entradas cargadas</span><b id="summary-loaded">0</b>
+</div>
+<div>
+<span>Duplicados retirados</span><b id="summary-duplicates">0</b>
+</div>
+<div>
+<span>Excluidos</span><b id="summary-excluded">0</b>
+</div>
+<div class="eligible-summary">
+<span>Participantes elegibles</span><b id="summary-eligible">0</b>
+</div>
+<p>Ganadores y suplentes se eligen de la misma lista, sin volver a seleccionar una entrada.</p></aside>
+</div>
+<div class="dialog-actions">
+<button class="button button-secondary" id="back-to-participants"><i class="fa-arrow-left" aria-hidden="true"></i> Regresar</button><button class="button" id="start-draw"><i class="fa-random" aria-hidden="true"></i> Comenzar sorteo</button>
+</div></section>
+
+      <section class="draw-screen drawing-screen" id="screen-drawing" aria-label="Sorteo en progreso" hidden><div class="drawing-icon"><i class="fa-gift" aria-hidden="true"></i></div>
+<h3 id="drawing-heading">Preparando el resultado...</h3>
+<p class="muted">Tu próximo ganador está por aparecer.</p>
+<div class="live-wheel" id="live-wheel" hidden>
+<canvas id="wheel-canvas" width="420" height="420" aria-label="Ruleta de participantes"></canvas><span class="wheel-pointer"></span>
+</div>
+<div class="countdown-number" id="countdown-number" aria-live="polite">5</div>
+<div class="shuffling-name" id="shuffling-name" aria-hidden="true">...</div>
+<small id="drawing-method" hidden></small></section>
+
+      <section class="draw-screen result-screen" id="screen-results" aria-label="Resultados del sorteo" hidden><div class="result-confetti" id="confetti" aria-hidden="true"></div>
+<i class="fa-trophy-alt result-trophy" aria-hidden="true"></i><p class="eyebrow" id="result-eyebrow">RESULTADO LISTO</p>
+<h3 id="results-heading" tabindex="-1">¡Tenemos un ganador!</h3>
+<p id="result-title" class="muted"></p>
+<div id="winners-list" class="winners-list"></div>
+<div id="alternates-section" class="alternates-section" hidden>
+<h4>Suplentes</h4>
+<ol id="alternates-list"></ol>
+</div>
+<div class="result-meta">
+<span id="result-total"></span><span id="result-date"></span>
+</div>
+<div class="result-downloads">
+<button class="button" id="download-image"><i class="fa-download" aria-hidden="true"></i> Descargar imagen</button><button class="button button-secondary" id="copy-results"><i class="fa-copy" aria-hidden="true"></i> Copiar resultado</button><button class="button button-secondary" id="download-csv">CSV</button>
+</div>
+<div class="dialog-actions">
+<button class="text-action" id="edit-draw"><i class="fa-arrow-left" aria-hidden="true"></i> Editar sorteo</button><button class="text-action" id="repeat-draw"><i class="fa-redo" aria-hidden="true"></i> Volver a sortear</button>
+</div></section>
+    </div>
+  </dialog>
+
+  <dialog class="info-dialog" id="info-dialog" aria-labelledby="info-title"><button class="icon-button close-dialog" id="close-info" aria-label="Cerrar información"><i class="fa-times" aria-hidden="true"></i></button><div class="info-icon"><i class="fa-gift" aria-hidden="true"></i></div>
+<h2 id="info-title">Acerca de esta práctica</h2>
+<p id="info-content"></p>
+<button class="button" id="info-continue">Entendido</button></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
