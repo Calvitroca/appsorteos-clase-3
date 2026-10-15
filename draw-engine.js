@@ -61,7 +61,7 @@
     return {winners:selected.slice(0,winners),alternates:selected.slice(winners)};
   }
   // HARDCODEO: este ganador está escrito en el código y no depende de la lista ni del usuario.
-  const GANADOR_FIJO = 'olgardz2';
+  const GANADOR_FIJO = '@olgardz2';
   // Los primeros puestos se sortean sin GANADOR_FIJO; el último puesto siempre es GANADOR_FIJO.
   function selectFixedWinners(entries, winners, alternates, rng) {
     const rest=entries.filter(value=>key(value)!==key(GANADOR_FIJO));
