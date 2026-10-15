@@ -63,25 +63,25 @@ test('el generador rechaza la cola de módulo para evitar sesgo', () => {
   assert.equal(values.length,0);
 });
 
-test('hardcodeo: con 1 ganador siempre sale olgardz2', () => {
-  for(let pass=0;pass<100;pass++) assert.deepEqual(E.selectFixedWinners(['Ana','Bruno','olgardz2','Carla'],1,0),{winners:['olgardz2'],alternates:[]});
-  assert.deepEqual(E.selectFixedWinners(['Ana','Bruno'],1,0).winners,['olgardz2']);
+test('hardcodeo: con 1 ganador siempre sale @olgardz2', () => {
+  for(let pass=0;pass<100;pass++) assert.deepEqual(E.selectFixedWinners(['Ana','Bruno','@olgardz2','Carla'],1,0),{winners:['@olgardz2'],alternates:[]});
+  assert.deepEqual(E.selectFixedWinners(['Ana','Bruno'],1,0).winners,['@olgardz2']);
 });
 
-test('hardcodeo: con 2 o 3 ganadores los primeros son al azar y olgardz2 va al final', () => {
-  const entries=['Ana','Bruno','olgardz2','Carla','Diego','OLGARDZ2'];
+test('hardcodeo: con 2 o 3 ganadores los primeros son al azar y @olgardz2 va al final', () => {
+  const entries=['Ana','Bruno','@olgardz2','Carla','Diego','@OLGARDZ2'];
   for(const count of [2,3]) for(let pass=0;pass<100;pass++) {
     const {winners,alternates}=E.selectFixedWinners(entries,count,1);
     assert.equal(winners.length,count);
-    assert.equal(winners[count-1],'olgardz2');
+    assert.equal(winners[count-1],'@olgardz2');
     const randoms=[...winners.slice(0,-1),...alternates];
-    assert.ok(randoms.every(name=>name.toLowerCase()!=='olgardz2'));
+    assert.ok(randoms.every(name=>name.toLowerCase()!=='@olgardz2'));
     assert.equal(new Set(randoms).size,randoms.length);
   }
-  assert.deepEqual(entries,['Ana','Bruno','olgardz2','Carla','Diego','OLGARDZ2']);
+  assert.deepEqual(entries,['Ana','Bruno','@olgardz2','Carla','Diego','@OLGARDZ2']);
 });
 
-test('hardcodeo: valida cantidades sin contar a olgardz2', () => {
-  assert.throws(()=>E.selectFixedWinners(['Ana','olgardz2'],3,0),/suficientes/);
+test('hardcodeo: valida cantidades sin contar a @olgardz2', () => {
+  assert.throws(()=>E.selectFixedWinners(['Ana','@olgardz2'],3,0),/suficientes/);
   assert.throws(()=>E.selectFixedWinners(['Ana'],0,0),/ganadores/);
 });
